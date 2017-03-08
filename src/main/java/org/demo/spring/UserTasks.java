@@ -1,0 +1,48 @@
+package org.demo.spring;
+
+import java.util.Collection;
+
+import org.demo.model.UserTask;
+import org.demo.model.UserTaskService;
+import org.demo.model.UserTaskService.InvalidAssign;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/userTasks")
+public class UserTasks
+{
+    @Autowired
+    private UserTaskService uts;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<Collection<UserTask>> getAllUserTasks()
+    {
+        return new ResponseEntity<>(uts.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{userName}")
+    public ResponseEntity<Collection<UserTask>> getUserTaskByName(@PathVariable String userName)
+    {
+        return new ResponseEntity<>(uts.findByUserName(userName), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<UserTask> upsertUserTask(@RequestBody UserTask userTask)
+    {
+        try
+        {
+            return new ResponseEntity<>(uts.save(userTask), HttpStatus.CREATED);
+        }
+        catch (InvalidAssign e)
+        {
+            return new ResponseEntity<>(userTask, HttpStatus.CONFLICT);
+        }
+    }
+}
