@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016, Xavier Miret Andres <xavier.mires@gmail.com>
+ * Copyright (c) 2016, 2017, Xavier Miret Andres <xavier.mires@gmail.com>
  *
  * Permission to use, copy, modify, and/or distribute this software for any 
  * purpose with or without fee is hereby granted, provided that the above 
